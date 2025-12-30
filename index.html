@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ATD AMS Consulting, Inc. — Business & Management Consulting</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind CDN config -->
+    <script>
+      tailwind = {
+        config: {
+          theme: {
+            extend: {
+              colors: {
+                maroon: { DEFAULT: "#7B0D12", 600: "#6c0b10", 700: "#59080d" },
+              },
+              fontFamily: {
+                sans: ["Poppins", "Inter", "system-ui"],
+                display: ['"Playfair Display"', "serif"],
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Inline CSS (responsive fixes + mobile panel) -->
+    <style>
+      :root {
+        --header-h: 80px;
+        --maroon: #7b0d12;
+        --maroon-600: #6c0b10;
+        --maroon-700: #59080d;
+        --card-border: rgba(15, 23, 42, 0.06);
+      }
+
+      html {
+        scroll-padding-top: calc(var(--header-h) + 12px);
+      }
+      .site-header {
+        height: var(--header-h);
+      }
+
+      /* Reveal animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.7s, transform 0.7s;
+      }
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* hero sizes */
+      .hero-clip {
+        border-radius: 14px;
+        height: 420px;
+        overflow: hidden;
+      }
+      @media (min-width: 1024px) {
+        .hero-clip {
+          height: 520px;
+        }
+      }
+
+      /* marquee */
+      .marquee {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        padding: 0.6rem 0;
+      }
+      .marquee-track {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        width: max-content;
+        animation: marquee 22s linear infinite;
+      }
+      .marquee:hover .marquee-track,
+      .marquee-track:focus {
+        animation-play-state: paused;
+      }
+      @keyframes marquee {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      .client-card {
+        min-width: 180px;
+        padding: 1rem 1.25rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        font-weight: 600;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        white-space: nowrap;
+      }
+
+      .card-border {
+        border: 1px solid var(--card-border);
+        background-clip: padding-box;
+      }
+
+      /* mobile panel */
+      #mobileOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.32);
+        backdrop-filter: blur(3px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.18s, visibility 0.18s;
+        z-index: 40;
+      }
+      #mobileOverlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      #mobileMenuPanel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: min(92vw, 360px);
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(6px);
+        box-shadow: -20px 30px 60px rgba(0, 0, 0, 0.18);
+        transform: translateX(110%);
+        transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1);
+        z-index: 50;
+        padding-top: calc(var(--header-h)+12px);
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      #mobileMenuPanel.open {
+        transform: translateX(0);
+      }
+      #mobileMenuPanel nav a {
+        color: #1f2937;
+        font-weight: 600;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+      }
+      #mobileMenuClose {
+        position: absolute;
+        left: 12px;
+        top: 10px;
+        background: transparent;
+        border: none;
+        padding: 6px;
+        cursor: pointer;
+      }
+
+      /* Brand responsive */
+      .brand-title {
+        font-size: 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      @media (min-width: 1000px) {
+        .brand-title {
+          font-size: 1.125rem;
+        }
+      }
+
+      /* Hero title scaling */
+      .hero-title {
+        font-size: 1.75rem;
+        line-height: 1.05;
+      }
+      @media (min-width: 768px) {
+        .hero-title {
+          font-size: 3rem;
+        }
+      }
+
+      /* Footer centering */
+      .footer-inner {
+        text-align: center;
+      }
+      @media (min-width: 768px) {
+        .footer-inner {
+          text-align: left;
+        }
+      }
+
+      /* NAV behaviour */
+      .nav-inline {
+        display: none;
+      } /* default hidden */
+      .nav-toggle {
+        display: block;
+      } /* default show toggle */
+      @media (min-width: 1024px) {
+        .nav-inline {
+          display: flex !important;
+          gap: 1.75rem;
+          align-items: center;
+        }
+        .nav-toggle {
+          display: none !important;
+        }
+      }
+      .nav-link {
+        white-space: nowrap;
+        display: inline-block;
+      }
+
+      /* Mid-range smoothing (640-1023) */
+      @media (min-width: 640px) and (max-width: 1023px) {
+        .brand-title {
+          font-size: 1.05rem !important;
+        }
+        .hero-title {
+          font-size: 2.2rem !important;
+        }
+        .hero-clip {
+          height: 460px !important;
+        }
+        .marquee-track {
+          animation-duration: 20s !important;
+        }
+        header .max-w-7xl,
+        header .max-w-6xl {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+        .card-border {
+          padding: 0.9rem;
+        }
+      }
+
+      /* Allow inline nav to wrap gracefully */
+      header nav.nav-inline {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      /* small pressed helper */
+      .pressed {
+        transform: translateY(0) scale(0.985) !important;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06) inset !important;
+      }
+
+      /* ripple */
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        background: rgba(255, 255, 255, 0.28);
+        opacity: 0.95;
+        pointer-events: none;
+        animation: ripple 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
+      }
+      @keyframes ripple {
+        to {
+          transform: scale(1);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="font-sans bg-white text-gray-800 antialiased leading-relaxed">
+    <!-- NAV -->
+    <header
+      class="site-header sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-between h-20">
+          <a href="#" class="flex items-center gap-3 min-w-0">
+            <div
+              class="w-10 h-10 rounded-md bg-gradient-to-br from-maroon to-maroon-700 flex items-center justify-center shadow-md flex-shrink-0"
+            >
+              <span class="text-white font-semibold">ATD</span>
+            </div>
+            <div class="min-w-0">
+              <div class="text-maroon font-display brand-title tracking-wider">
+                ATD AMS CONSULTING, INC.
+              </div>
+              <div class="text-xs text-gray-500 uppercase">
+                Accounting System • Payroll • Assurance
+              </div>
+            </div>
+          </a>
+
+          <!-- Inline nav for large screens -->
+          <nav class="nav-inline hidden text-sm">
+            <a
+              href="#home"
+              class="nav-link text-gray-600 hover:text-maroon transition"
+              >Home</a
+            >
+            <a
+              href="#about"
+              class="nav-link text-gray-600 hover:text-maroon transition"
+              >About</a
+            >
+            <a
+              href="#mission"
+              class="nav-link text-gray-600 hover:text-maroon transition"
+              >Mission &amp; Vision</a
+            >
+            <a
+              href="#services"
+              class="nav-link text-gray-600 hover:text-maroon transition"
+              >Services</a
+            >
+            <a
+              href="#clients"
+              class="nav-link text-gray-600 hover:text-maroon transition"
+              >Clients</a
+            >
+            <a
+              href="#contact"
+              class="ml-4 inline-flex items-center gap-3 px-4 py-2 rounded-full text-white bg-gradient-to-b from-maroon to-maroon-700 shadow-lg transform transition hover:-translate-y-1 active:scale-95 focus:outline-none"
+              >Contact</a
+            >
+          </nav>
+
+          <!-- Toggle button for below lg -->
+          <div class="nav-toggle lg:hidden">
+            <button
+              id="mobileBtn"
+              aria-expanded="false"
+              aria-controls="mobileMenuPanel"
+              aria-label="Open menu"
+              class="p-2 rounded-md bg-white border border-gray-200 shadow-sm"
+            >
+              <svg
+                id="menuIcon"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-maroon"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 8h16M4 16h16"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile overlay + panel -->
+    <div id="mobileOverlay" aria-hidden="true"></div>
+    <aside id="mobileMenuPanel" aria-hidden="true" class="">
+      <button id="mobileMenuClose" aria-label="Close menu">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 text-gray-700"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+
+      <nav class="mt-10 flex flex-col gap-1">
+        <a href="#home" class="text-lg">Home</a>
+        <a href="#about" class="text-lg">About</a>
+        <a href="#mission" class="text-lg">Mission &amp; Vision</a>
+        <a href="#services" class="text-lg">Services</a>
+        <a href="#clients" class="text-lg">Clients</a>
+      </nav>
+
+      <div class="mt-auto pb-8">
+        <a
+          href="#contact"
+          class="inline-flex w-full justify-center items-center gap-2 px-4 py-3 rounded-full text-white bg-gradient-to-b from-maroon to-maroon-700 shadow-lg"
+          >Contact</a
+        >
+      </div>
+    </aside>
+
+    <main>
+      <!-- HERO -->
+      <section id="home" class="relative overflow-hidden">
+        <div
+          class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center px-6 py-16"
+        >
+          <div class="space-y-6 text-center md:text-left">
+            <p class="text-sm uppercase text-gray-500 tracking-widest">
+              ATD AMS CONSULTING, INC.
+            </p>
+            <h1 class="font-display text-maroon hero-title reveal">
+              Account System and Payroll.
+              <span class="block text-maroon-700">Assurance.</span>
+              <span class="block text-maroon-700">Organizing Management.</span>
+            </h1>
+            <p class="text-gray-600 max-w-xl reveal">
+              Established in 2014, ATD AMS Consulting, Inc. renders various
+              business and management consultancy engagements covering
+              Accounting System and Payroll, Assurance, and Organizational
+              Management.
+            </p>
+
+            <div
+              class="flex flex-wrap gap-4 justify-center md:justify-start reveal"
+            >
+              <a
+                href="#services"
+                class="inline-flex items-center gap-3 px-5 py-3 rounded-full text-white bg-gradient-to-b from-maroon to-maroon-700 shadow-lg transform transition hover:-translate-y-1 active:scale-95 focus:outline-none"
+                data-ripple
+                >Our Services</a
+              >
+              <a
+                href="#contact"
+                class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 transition"
+                data-ripple
+                >Talk to an expert</a
+              >
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500 reveal">
+              <strong>Telephone:</strong> +63 (2) 88059937 •
+              <strong>Email:</strong>
+              <a href="mailto:atdizon@atdamsconsulting.com" class="text-maroon"
+                >atdizon@atdamsconsulting.com</a
+              >
+            </div>
+          </div>
+
+          <!-- image hidden below lg -->
+          <div
+            class="relative order-first md:order-last reveal hidden lg:block"
+          >
+            <div class="hero-clip rounded-xl shadow-lg overflow-hidden">
+              <img
+                src="assets/hero.jpg"
+                alt="Team discussing strategy"
+                class="w-full h-full object-cover object-center"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-l from-transparent to-white/20"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- (rest of your content: About / Mission / Services / Clients / Contact / Footer) -->
+      <!-- About -->
+      <section id="about" class="py-16">
+        <div class="max-w-6xl mx-auto px-6">
+          <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div
+              class="space-y-4 reveal card-border rounded-xl p-6 border-gray-300"
+            >
+              <h2 class="text-3xl font-display text-maroon">About Us</h2>
+              <p class="text-gray-600">
+                Established in 2014, ATD AMS Consulting, Inc. is a company that
+                renders various business and management consultancy engagements
+                that cover the areas of Accounting System and Payroll,
+                Assurance, and Organizational Management.
+              </p>
+              <p class="text-gray-600">
+                The founder has solid and extensive years of experience in
+                Audit, Credit Evaluation, Accounting, Tax, Treasury, Operations,
+                Human Resource, Marketing, Administration, and General
+                Management across multiple industries.
+              </p>
+            </div>
+            <div
+              class="space-y-4 reveal card-border rounded-xl p-6 border-gray-300"
+            >
+              <h3 class="text-xl font-semibold text-maroon">
+                Founder's Professional Background
+              </h3>
+              <ul class="list-disc list-inside text-gray-600 space-y-2">
+                <li>BSC Major in Accounting, San Beda University</li>
+                <li>Certified Public Accountant (CPA)</li>
+                <li>MBA, De La Salle University</li>
+                <li>BOA, BIR, & CDA Accreditation</li>
+                <li>Member: PICPA, IIA, CMAP, PMAP</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mission & Vision -->
+      <section
+        id="mission"
+        class="py-16 bg-gradient-to-r from-maroon to-maroon-700 text-white"
+      >
+        <div class="max-w-5xl mx-auto px-6">
+          <div class="text-center reveal">
+            <h2 class="text-3xl font-display">Company Mission & Vision</h2>
+            <div class="mt-8 grid md:grid-cols-2 gap-8">
+              <div class="p-6 rounded-xl border-white/10 card-border">
+                <h4 class="font-semibold text-white">Mission</h4>
+                <p class="mt-3 text-white/90">
+                  ATD AMS CONSULTING, INC. is constantly developing and offering
+                  innovative, independent, quality and personalized business and
+                  management services to meet the needs of clients within and
+                  outside the Philippines.
+                </p>
+              </div>
+              <div class="p-6 rounded-xl border-white/10 card-border">
+                <h4 class="font-semibold text-white">Vision</h4>
+                <p class="mt-3 text-white/90">
+                  ATD AMS CONSULTING, INC. aims to be a total business and
+                  management services provider across operations, marketing,
+                  finance, systems, and management consulting to meet industry
+                  challenges.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section id="services" class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="flex flex-col items-center mb-8 reveal gap-3">
+            <h2 class="text-3xl font-display text-maroon text-center">
+              Company Services
+            </h2>
+            <p class="text-gray-500 text-center max-w-xl">
+              Experience quality through our highly qualified, responsible,
+              hardworking &amp; dedicated personnel.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-6">
+            <article
+              class="p-6 bg-white card-border rounded-xl shadow-sm hover:shadow-lg transition reveal"
+            >
+              <h3 class="font-semibold text-maroon">
+                Accounting System & Payroll Solution
+              </h3>
+              <ul class="mt-3 text-gray-600 list-disc list-inside space-y-1">
+                <li>Accounting System Review</li>
+                <li>Internal Control Review</li>
+                <li>ERP Setup Assistance</li>
+                <li>ERP Maintenance & Consulting</li>
+                <li>Payroll Processing</li>
+              </ul>
+            </article>
+
+            <article
+              class="p-6 bg-white card-border rounded-xl shadow-sm hover:shadow-lg transition reveal"
+            >
+              <h3 class="font-semibold text-maroon">Assurance Services</h3>
+              <ul class="mt-3 text-gray-600 list-disc list-inside space-y-1">
+                <li>Operations Audit</li>
+                <li>Financial Audit</li>
+                <li>Compliance Audit</li>
+                <li>Due Diligence Audit</li>
+                <li>Risk Assessment Review & Analysis</li>
+              </ul>
+            </article>
+
+            <article
+              class="p-6 bg-white card-border rounded-xl shadow-sm hover:shadow-lg transition reveal"
+            >
+              <h3 class="font-semibold text-maroon">Organization Management</h3>
+              <ul class="mt-3 text-gray-600 list-disc list-inside space-y-1">
+                <li>Business Process</li>
+                <li>Business Set Up & Strategic Planning</li>
+                <li>Management Assistance</li>
+                <li>Advisory & Consultancy Work</li>
+                <li>Business Brokering (Buyout / JV / Investment)</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="mt-10 reveal">
+            <h4 class="text-xl font-semibold text-maroon mb-4">
+              Other Services (via sister company - A.T. DIZON ACCOUNTING AND
+              MANAGEMENT SERVICES)
+            </h4>
+            <div class="grid md:grid-cols-3 gap-6">
+              <div
+                class="p-5 bg-white card-border rounded-xl shadow-sm hover:shadow-lg transition reveal"
+              >
+                <h5 class="font-medium">Accounting</h5>
+                <p class="text-gray-600 mt-2">
+                  Bookkeeping, financial statements, government reportorial
+                  requirements.
+                </p>
+              </div>
+              <div
+                class="p-5 bg-white card-border rounded-xl shadow-sm hover:shadow-lg transition reveal"
+              >
+                <h5 class="font-medium">Audit</h5>
+                <p class="text-gray-600 mt-2">
+                  Statutory/External audits and special audits.
+                </p>
+              </div>
+              <div
+                class="p-5 bg-white card-border rounded-xl shadow-sm hover:shadow-lg transition reveal"
+              >
+                <h5 class="font-medium">Tax</h5>
+                <p class="text-gray-600 mt-2">
+                  Tax planning, registration assistance, preparation and filing
+                  assistance.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Clients -->
+      <section
+        id="clients"
+        class="py-12 bg-gradient-to-r from-maroon to-maroon-700 text-white"
+      >
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="text-center mb-6 reveal">
+            <h2 class="text-3xl font-display">Clients</h2>
+            <p class="text-white/90 mt-3 max-w-2xl mx-auto">
+              We serve a wide range of industries including remittance,
+              logistics, manufacturing, finance, healthcare, real estate, IT and
+              more.
+            </p>
+          </div>
+
+          <div class="mt-6">
+            <div class="marquee" role="region" aria-label="Clients marquee">
+              <div class="marquee-track">
+                <div class="flex gap-4 items-center">
+                  <div class="client-card">Remittance</div>
+                  <div class="client-card">Diagnostics</div>
+                  <div class="client-card">Logistics</div>
+                  <div class="client-card">Finance</div>
+                  <div class="client-card">Manufacturing</div>
+                  <div class="client-card">Healthcare</div>
+                  <div class="client-card">Real Estate</div>
+                  <div class="client-card">IT</div>
+                  <div class="client-card">Trading</div>
+                </div>
+                <div class="flex gap-4 items-center" aria-hidden="true">
+                  <div class="client-card">Remittance</div>
+                  <div class="client-card">Diagnostics</div>
+                  <div class="client-card">Logistics</div>
+                  <div class="client-card">Finance</div>
+                  <div class="client-card">Manufacturing</div>
+                  <div class="client-card">Healthcare</div>
+                  <div class="client-card">Real Estate</div>
+                  <div class="client-card">IT</div>
+                  <div class="client-card">Trading</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="grid md:grid-cols-2 gap-8 items-start">
+            <div class="reveal">
+              <h2 class="text-3xl font-display text-maroon">Contact Us</h2>
+              <p class="text-gray-600 mt-3">
+                ATD AMS CONSULTING, INC.<br />Raha Sulayman Building, 108
+                Benavidez Street, Makati City, Metro Manila, Philippines
+              </p>
+
+              <dl class="mt-6 text-gray-700 space-y-3">
+                <div>
+                  <dt class="font-medium">Telephone</dt>
+                  <dd>+63 (2) 88059937</dd>
+                </div>
+                <div>
+                  <dt class="font-medium">Email</dt>
+                  <dd>
+                    <a
+                      href="mailto:atdizon@atdamsconsulting.com"
+                      class="text-maroon"
+                      >atdizon@atdamsconsulting.com</a
+                    >
+                  </dd>
+                  <dd>
+                    <a href="mailto:atd_ams@yahoo.com" class="text-maroon"
+                      >atd_ams@yahoo.com</a
+                    >
+                  </dd>
+                </div>
+                <div>
+                  <dt class="font-medium">Human Resource</dt>
+                  <dd>
+                    <a
+                      href="mailto:careers@atdamsconsulting.com"
+                      class="text-maroon"
+                      >careers@atdamsconsulting.com</a
+                    >
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            <form
+              id="contactForm"
+              class="space-y-6 bg-white card-border p-8 rounded-xl shadow-sm reveal"
+            >
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="sr-only" for="name">Full name</label
+                  ><input
+                    id="name"
+                    name="name"
+                    required
+                    type="text"
+                    placeholder="Full name"
+                    class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 focus:ring-1 focus:ring-maroon/20 outline-none"
+                  />
+                </div>
+                <div>
+                  <label class="sr-only" for="email">Email address</label
+                  ><input
+                    id="email"
+                    name="email"
+                    required
+                    type="email"
+                    placeholder="Email address"
+                    class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 focus:ring-1 focus:ring-maroon/20 outline-none"
+                  />
+                </div>
+                <div class="md:col-span-2">
+                  <label class="sr-only" for="subject">Subject</label
+                  ><input
+                    id="subject"
+                    name="subject"
+                    type="text"
+                    placeholder="Subject"
+                    class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 focus:ring-1 focus:ring-maroon/20 outline-none"
+                  />
+                </div>
+                <div class="md:col-span-2">
+                  <label class="sr-only" for="message">Message</label
+                  ><textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows="6"
+                    placeholder="Message"
+                    class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 focus:ring-1 focus:ring-maroon/20 outline-none resize-y h-40 md:h-48"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div
+                class="flex flex-col-reverse sm:flex-row items-center justify-center sm:justify-end gap-3"
+              >
+                <button
+                  type="submit"
+                  class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-5 py-3 rounded-full text-white bg-gradient-to-b from-maroon to-maroon-700 shadow-lg transform transition hover:-translate-y-1 active:scale-95 focus:outline-none"
+                  data-ripple
+                >
+                  Send Message
+                </button>
+                <button
+                  type="reset"
+                  class="w-full sm:w-auto px-4 py-3 rounded-lg border text-gray-600 hover:bg-gray-50 transition"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mt-12">
+      <div
+        class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 footer-inner"
+      >
+        <div class="text-sm">
+          © <span id="year"></span> ATD AMS CONSULTING, INC. All rights
+          reserved.
+        </div>
+        <div class="text-sm">Designed with care • <a href="#">Privacy</a></div>
+      </div>
+    </footer>
+
+    <!-- Inline JS (menu control + resize handling + behaviours) -->
+    <script>
+      // set year
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Mobile menu controls
+      const mobileBtn = document.getElementById("mobileBtn");
+      const mobileOverlay = document.getElementById("mobileOverlay");
+      const mobilePanel = document.getElementById("mobileMenuPanel");
+      const mobileClose = document.getElementById("mobileMenuClose");
+
+      function openMobileMenu() {
+        mobileOverlay.classList.add("open");
+        mobilePanel.classList.add("open");
+        mobileOverlay.setAttribute("aria-hidden", "false");
+        mobilePanel.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        if (mobileBtn) mobileBtn.setAttribute("aria-expanded", "true");
+      }
+      function closeMobileMenu() {
+        mobileOverlay.classList.remove("open");
+        mobilePanel.classList.remove("open");
+        mobileOverlay.setAttribute("aria-hidden", "true");
+        mobilePanel.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        if (mobileBtn) mobileBtn.setAttribute("aria-expanded", "false");
+      }
+
+      mobileBtn?.addEventListener("click", openMobileMenu);
+      mobileOverlay?.addEventListener("click", closeMobileMenu);
+      mobileClose?.addEventListener("click", closeMobileMenu);
+
+      // Close mobile menu if viewport becomes wide (user resizes)
+      function handleResize() {
+        const wide = window.innerWidth >= 1024;
+        if (wide) closeMobileMenu();
+      }
+      window.addEventListener("resize", handleResize);
+      window.addEventListener("orientationchange", handleResize);
+
+      // Intersection Observer for reveal animations
+      const reveals = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      reveals.forEach((el) => io.observe(el));
+
+      // Smooth scroll for nav links & close mobile panel after click
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", function (e) {
+          const href = this.getAttribute("href");
+          if (href.length > 1 && document.querySelector(href)) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            const header = document.querySelector(".site-header");
+            const headerH = header ? header.getBoundingClientRect().height : 80;
+            const top =
+              target.getBoundingClientRect().top +
+              window.scrollY -
+              headerH -
+              12;
+            window.scrollTo({ top, behavior: "smooth" });
+            // close mobile panel if open
+            closeMobileMenu();
+          }
+        });
+      });
+
+      // Ripple effect
+      function createRipple(e) {
+        const btn = e.currentTarget;
+        const rect = btn.getBoundingClientRect();
+        const ripple = document.createElement("span");
+        const size = Math.max(rect.width, rect.height) * 1.6;
+        ripple.className = "ripple";
+        ripple.style.width = ripple.style.height = size + "px";
+        ripple.style.left = e.clientX - rect.left - size / 2 + "px";
+        ripple.style.top = e.clientY - rect.top - size / 2 + "px";
+        btn.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 700);
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll("[data-ripple]").forEach((btn) => {
+          btn.addEventListener("pointerdown", createRipple);
+          btn.addEventListener("pointerdown", () =>
+            btn.classList.add("pressed")
+          );
+          document.addEventListener("pointerup", () =>
+            document
+              .querySelectorAll(".pressed")
+              .forEach((b) => b.classList.remove("pressed"))
+          );
+          btn.addEventListener("keydown", (ev) => {
+            if (ev.key === " " || ev.key === "Enter")
+              btn.classList.add("pressed");
+          });
+          btn.addEventListener("keyup", () => btn.classList.remove("pressed"));
+        });
+        // make marquee-track focusable to allow pause
+        document
+          .querySelectorAll(".marquee-track")
+          .forEach((track) => track.setAttribute("tabindex", "0"));
+      });
+
+      async function handleForm(e) {
+        e.preventDefault();
+
+        const form = document.getElementById("contactForm");
+
+        const data = {
+          name: form.name.value,
+          email: form.email.value,
+          subject: form.subject.value,
+          message: form.message.value,
+        };
+
+        const res = await fetch("http://localhost:3000/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          alert("Message sent successfully!");
+          form.reset();
+        } else {
+          alert("Failed to send message.");
+        }
+      }
+
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", handleForm);
+    </script>
+  </body>
+</html>
