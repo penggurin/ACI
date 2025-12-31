@@ -290,7 +290,7 @@
             <div
               class="w-10 h-10 rounded-md bg-gradient-to-br from-maroon to-maroon-700 flex items-center justify-center shadow-md flex-shrink-0"
             >
-              <span class="text-white font-semibold">ATD</span>
+              <span class="text-white font-semibold">ACI</span>
             </div>
             <div class="min-w-0">
               <div class="text-maroon font-display brand-title tracking-wider">
@@ -471,39 +471,72 @@
 
       <!-- (rest of your content: About / Mission / Services / Clients / Contact / Footer) -->
       <!-- About -->
-      <section id="about" class="py-16">
-        <div class="max-w-6xl mx-auto px-6">
-          <div class="grid md:grid-cols-2 gap-10 items-center">
-            <div
-              class="space-y-4 reveal card-border rounded-xl p-6 border-gray-300"
-            >
-              <h2 class="text-3xl font-display text-maroon">About Us</h2>
-              <p class="text-gray-600">
-                Established in 2014, ATD AMS Consulting, Inc. is a company that
-                renders various business and management consultancy engagements
-                that cover the areas of Accounting System and Payroll,
-                Assurance, and Organizational Management.
-              </p>
-              <p class="text-gray-600">
-                The founder has solid and extensive years of experience in
-                Audit, Credit Evaluation, Accounting, Tax, Treasury, Operations,
-                Human Resource, Marketing, Administration, and General
-                Management across multiple industries.
-              </p>
-            </div>
-            <div
-              class="space-y-4 reveal card-border rounded-xl p-6 border-gray-300"
-            >
-              <h3 class="text-xl font-semibold text-maroon">
-                Founder's Professional Background
-              </h3>
-              <ul class="list-disc list-inside text-gray-600 space-y-2">
-                <li>BSC Major in Accounting, San Beda University</li>
-                <li>Certified Public Accountant (CPA)</li>
-                <li>MBA, De La Salle University</li>
-                <li>BOA, BIR, & CDA Accreditation</li>
-                <li>Member: PICPA, IIA, CMAP, PMAP</li>
-              </ul>
+      <section id="about" class="py-12">
+        <div
+          class="max-w-4xl mx-auto p-6 text-center card-border rounded-xl shadow-sm hover:shadow-lg transition reveal border-gray-300
+        >
+          <header class="mb-6">
+            <h2 class="text-3xl font-display font-semibold text-maroon">
+              About the Founder
+            </h2>
+            <p class="text-lg text-gray-800 mt-1">Juan Dela Cruz</p>
+          </header>
+
+          <div class="p-4">
+            <!-- Condensed expertise line -->
+            <p class="text-gray-700 text-sm mb-4">
+              Areas of expertise:
+              <span class="font-medium text-gray-700">Audit</span>,
+              <span class="font-medium text-gray-700">Accounting</span>,
+              <span class="font-medium text-gray-700">Tax</span>,
+              <span class="font-medium text-gray-700">Treasury</span>,
+              <span class="font-medium text-gray-700">Operations</span>
+              (and related disciplines)
+            </p>
+
+            <!-- Small credential list -->
+            <ul class="inline-block text-left text-gray-600 text-sm space-y-1">
+              <li class="list-none">
+                <span class="font-semibold text-gray-700">Education:</span> BSC
+                (Accounting), San Beda University; MBA, De La Salle University
+              </li>
+              <li class="list-none">
+                <span class="font-semibold text-gray-700">Certifications:</span>
+                Certified Public Accountant (CPA)
+              </li>
+              <li class="list-none">
+                <span class="font-semibold text-gray-700"
+                  >Accreditations & Memberships:</span
+                >
+                BOA, BIR (formerly CDA); PICPA, IIA, CMAP, PMAP
+              </li>
+            </ul>
+
+            <!-- Minimal, compact industry chips (CSS-only interaction via hover/focus) -->
+            <div class="mt-4">
+              <div class="text-sm text-gray-600 mb-2">Industry exposure</div>
+              <div class="flex justify-center flex-wrap gap-2">
+                <button
+                  class="px-3 py-1 rounded-full text-sm bg-gray-100 hover:bg-maroon hover:text-white transition"
+                >
+                  Banking
+                </button>
+                <button
+                  class="px-3 py-1 rounded-full text-sm bg-gray-100 hover:bg-maroon hover:text-white transition"
+                >
+                  Manufacturing
+                </button>
+                <button
+                  class="px-3 py-1 rounded-full text-sm bg-gray-100 hover:bg-maroon hover:text-white transition"
+                >
+                  Retail
+                </button>
+                <button
+                  class="px-3 py-1 rounded-full text-sm bg-gray-100 hover:bg-maroon hover:text-white transition"
+                >
+                  Logistics
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -518,7 +551,9 @@
           <div class="text-center reveal">
             <h2 class="text-3xl font-display">Company Mission & Vision</h2>
             <div class="mt-8 grid md:grid-cols-2 gap-8">
-              <div class="p-6 rounded-xl border-white/10 card-border">
+              <div
+                class="p-6 md:p-8 rounded-2xl bg-white/5 backdrop-blur border border-white/10"
+              >
                 <h4 class="font-semibold text-white">Mission</h4>
                 <p class="mt-3 text-white/90">
                   ATD AMS CONSULTING, INC. is constantly developing and offering
@@ -527,7 +562,9 @@
                   outside the Philippines.
                 </p>
               </div>
-              <div class="p-6 rounded-xl border-white/10 card-border">
+              <div
+                class="p-6 md:p-8 rounded-2xl bg-white/5 backdrop-blur border border-white/10"
+              >
                 <h4 class="font-semibold text-white">Vision</h4>
                 <p class="mt-3 text-white/90">
                   ATD AMS CONSULTING, INC. aims to be a total business and
@@ -799,13 +836,12 @@
 
     <footer class="mt-12">
       <div
-        class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 footer-inner"
+        class="w-full px-6 py-8 flex flex-col items-center justify-center gap-2 bg-gradient-to-r from-maroon to-maroon-700 text-gray-300 text-center text-xs"
       >
-        <div class="text-sm">
+        <div>
           © <span id="year"></span> ATD AMS CONSULTING, INC. All rights
           reserved.
         </div>
-        <div class="text-sm">Designed with care • <a href="#">Privacy</a></div>
       </div>
     </footer>
 
