@@ -256,6 +256,27 @@
           transform: rotate(360deg);
         }
       }
+
+      /* Collapsible content */
+      .collapsible-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+        opacity: 0;
+      }
+
+      .collapsible-content.active {
+        max-height: 2000px;
+        opacity: 1;
+      }
+
+      .learn-more-btn svg {
+        transition: transform 0.3s ease;
+      }
+
+      .learn-more-btn.active svg {
+        transform: rotate(180deg);
+      }
     </style>
   </head>
   <body class="bg-white text-gray-900">
@@ -561,7 +582,7 @@
                   <div
                     class="w-12 h-12 bg-gradient-to-br from-maroon to-maroon-700 rounded-full flex items-center justify-center"
                   >
-                    <span class="text-white text-xl font-bold">10+</span>
+                    <span class="text-white text-xl font-bold">5+</span>
                   </div>
                   <div>
                     <div class="text-sm text-gray-600">Years of</div>
@@ -588,7 +609,7 @@
               Our Founder
             </span>
             <h2 class="font-display text-4xl md:text-5xl text-gray-900 mb-4">
-              Meet Alexander T. Dizon
+              Alexander T. Dizon
             </h2>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">
               Leading expertise in Audit, Accounting, Tax, Treasury, and
@@ -1150,16 +1171,271 @@
           </div>
 
           <!-- Other Services -->
+          <div class="reveal text-center mb-16">
+            <h2 class="font-display text-4xl md:text-5xl text-gray-900 mb-4">
+              Additional Services
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+              Via sister company
+            </p>
+          </div>
+          <!-- ASTRAM SERVICES -->
           <div
-            class="reveal bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 md:p-12 border border-gray-200"
+            class="reveal bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 md:p-12 border border-gray-200 mb-8"
           >
             <div class="text-center mb-10">
               <h3 class="text-2xl font-semibold text-gray-900 mb-2">
-                Additional Services
+                ASTRAM SERVICES
               </h3>
               <p class="text-gray-600">
-                Via sister company - A.T. DIZON ACCOUNTING AND MANAGEMENT
-                SERVICES
+                Providing intangible expertise, labor, or resources to
+                organizations and individuals
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <!-- Professional Assistance Services -->
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Business</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                  Provide professional expertise, advisory support, and
+                  specialized services to organizations and individuals.
+                </p>
+                <button
+                  onclick="toggleCollapse('astram-1')"
+                  class="learn-more-btn text-maroon text-sm font-medium flex items-center gap-1 hover:gap-2 transition-all"
+                >
+                  Learn More
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="astram-1"
+                  class="collapsible-content mt-4 pt-4 border-t border-gray-100"
+                >
+                  <ul class="space-y-2 text-gray-600 text-sm">
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Professional Assistance:</strong> Legal and
+                        regulatory compliance, contract review, and corporate
+                        consulting covering finance, operations, marketing,
+                        management, and HR.</span
+                      >
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Healthcare and HR Support:</strong> HMO
+                        brokering, executive search, and development of HR
+                        policies and employee guidelines.</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Financial & Operations -->
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Financial</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                  Provide accounting, taxation and assurance (financial,
+                  operations and compliance audit) services
+                </p>
+                <button
+                  onclick="toggleCollapse('astram-3')"
+                  class="learn-more-btn text-maroon text-sm font-medium flex items-center gap-1 hover:gap-2 transition-all"
+                >
+                  Learn More
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="astram-3"
+                  class="collapsible-content mt-4 pt-4 border-t border-gray-100"
+                >
+                  <ul class="space-y-2 text-gray-600 text-sm">
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Accounting and Bookkeeping:</strong> Financial
+                        record keeping, Financial Statements Preparation and
+                        Analyses.</span
+                      >
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Taxation:</strong> Tax Compliance, Tax Return
+                        Preparation and Filing</span
+                      >
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Business Registration:</strong> Assists setting
+                        up of New Companies and Registration with Government
+                        Agencies</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Healthcare and HR Support -->
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Operations</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                  Assists in temporily and jointly running the operational
+                  activities of newly created companies and those needing
+                  assistance due to management vacuum.
+                </p>
+                <button
+                  onclick="toggleCollapse('astram-2')"
+                  class="learn-more-btn text-maroon text-sm font-medium flex items-center gap-1 hover:gap-2 transition-all"
+                >
+                  Learn More
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="astram-2"
+                  class="collapsible-content mt-4 pt-4 border-t border-gray-100"
+                >
+                  <ul class="space-y-2 text-gray-600 text-sm">
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span><strong>Newly Formed Company</strong></span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Company with Management Vacuum</strong></span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- A.T. DIZON ACCOUNTING AND MANAGEMENT SERVICES -->
+          <div
+            class="reveal bg-gradient-to-br from-gray-50 to-white rounded-3xl p-6 md:p-12 border border-gray-200"
+          >
+            <div class="text-center mb-10">
+              <img
+                src="assets/ATDLogo.jpg"
+                alt="Professional business meeting"
+                class="mb-4 mx-auto object-contain shadow-md"
+              />
+              <h3 class="text-2xl font-semibold text-gray-900 mb-2">
+                A.T. DIZON ACCOUNTING AND MANAGEMENT SERVICES
+              </h3>
+              <p class="text-gray-600">
+                under Alexander T. Dizon, CPA MBA BOA and BIR Accredited
               </p>
             </div>
 
@@ -1270,11 +1546,6 @@
 
         <div class="relative max-w-7xl mx-auto px-6">
           <div class="reveal text-center mb-12">
-            <span
-              class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm mb-4"
-            >
-              Our Portfolio
-            </span>
             <h2 class="font-display text-4xl md:text-5xl mb-4">Clients</h2>
             <p class="text-white/90 text-lg max-w-3xl mx-auto">
               We serve a wide range of industries including remittance,
@@ -1789,6 +2060,16 @@
         submitBtn.innerHTML = originalHTML;
         submitBtn.disabled = false;
       });
+
+      // Toggle collapsible content
+      function toggleCollapse(id) {
+        const content = document.getElementById(id);
+        const button = event.currentTarget;
+
+        // Toggle the active class
+        content.classList.toggle("active");
+        button.classList.toggle("active");
+      }
     </script>
   </body>
 </html>
