@@ -1,0 +1,2164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ATD AMS Consulting, Inc.</title>
+    <link rel="icon" type="image/png" href="assets/ACI_MainLogo.png" />
+    <script src="script.js" defer></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+      tailwind = {
+        config: {
+          theme: {
+            extend: {
+              colors: {
+                maroon: {
+                  DEFAULT: "#7B0D12",
+                  600: "#6c0b10",
+                  700: "#59080d",
+                },
+              },
+              fontFamily: {
+                sans: ["Inter", "system-ui", "sans-serif"],
+                display: ['"Playfair Display"', "serif"],
+              },
+              animation: {
+                marquee: "marquee 30s linear infinite",
+                "fade-in-up": "fadeInUp 0.6s ease-out",
+                "fade-in": "fadeIn 0.6s ease-out",
+              },
+              keyframes: {
+                marquee: {
+                  "0%": { transform: "translateX(0)" },
+                  "100%": { transform: "translateX(-50%)" },
+                },
+                fadeInUp: {
+                  "0%": { opacity: "0", transform: "translateY(30px)" },
+                  "100%": { opacity: "1", transform: "translateY(0)" },
+                },
+                fadeIn: {
+                  "0%": { opacity: "0" },
+                  "100%": { opacity: "1" },
+                },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5rem;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Reveal animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s ease-out,
+          transform 0.8s ease-out;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Marquee */
+      .marquee-container {
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+      }
+
+      .marquee-content {
+        display: flex;
+        gap: 1.5rem;
+        width: max-content;
+        animation: marquee 30s linear infinite;
+      }
+
+      .marquee-container:hover .marquee-content {
+        animation-play-state: paused;
+      }
+
+      @keyframes marquee {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #7b0d12;
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #59080d;
+      }
+
+      /* Mobile menu overlay */
+      .mobile-menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s,
+          visibility 0.3s;
+        z-index: 40;
+      }
+
+      .mobile-menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-width: 24rem;
+        background: white;
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 50;
+        overflow-y: auto;
+      }
+
+      .mobile-menu.active {
+        transform: translateX(0);
+      }
+
+      /* Background decorations */
+      .bg-decoration {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.4;
+        pointer-events: none;
+      }
+
+      /* Gradient text */
+      .gradient-text {
+        background: linear-gradient(135deg, #7b0d12 0%, #59080d 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Glass effect */
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      /* Button hover effects */
+      .btn-primary {
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(123, 13, 18, 0.3);
+      }
+
+      .btn-primary:active {
+        transform: translateY(0);
+      }
+
+      /* Toast notification styles */
+      .toast {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        background: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        z-index: 9999;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .toast.success {
+        border-left: 4px solid #10b981;
+      }
+
+      .toast.error {
+        border-left: 4px solid #ef4444;
+      }
+
+      /* Loading spinner */
+      .spinner {
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 2px solid white;
+        width: 20px;
+        height: 20px;
+        animation: spin 0.8s linear infinite;
+        display: inline-block;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Collapsible content */
+      .collapsible-content {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s ease-out,
+          opacity 0.4s ease-out;
+        opacity: 0;
+      }
+
+      .collapsible-content.active {
+        max-height: 2000px;
+        opacity: 1;
+      }
+
+      .learn-more-btn svg {
+        transition: transform 0.3s ease;
+      }
+
+      .learn-more-btn.active svg {
+        transform: rotate(180deg);
+      }
+    </style>
+  </head>
+  <body class="bg-white text-gray-900">
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Header -->
+    <header
+      id="header"
+      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-between h-20">
+          <!-- Logo -->
+          <a href="#" class="flex items-center min-w-0">
+            <img
+              src="assets/ACI_Logo.png"
+              alt="ATD AMS Consulting Inc."
+              class="h-9 w-auto object-contain"
+            />
+          </a>
+
+          <!-- Desktop Navigation -->
+          <nav class="hidden lg:flex items-center gap-8">
+            <a
+              href="#home"
+              class="nav-link text-gray-600 hover:text-maroon transition-colors relative group"
+            >
+              Home
+              <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-maroon group-hover:w-full transition-all duration-300"
+              ></span>
+            </a>
+            <a
+              href="#about"
+              class="nav-link text-gray-600 hover:text-maroon transition-colors relative group"
+            >
+              About
+              <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-maroon group-hover:w-full transition-all duration-300"
+              ></span>
+            </a>
+            <a
+              href="#mission"
+              class="nav-link text-gray-600 hover:text-maroon transition-colors relative group"
+            >
+              Mission & Vision
+              <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-maroon group-hover:w-full transition-all duration-300"
+              ></span>
+            </a>
+            <a
+              href="#services"
+              class="nav-link text-gray-600 hover:text-maroon transition-colors relative group"
+            >
+              Services
+              <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-maroon group-hover:w-full transition-all duration-300"
+              ></span>
+            </a>
+            <a
+              href="#clients"
+              class="nav-link text-gray-600 hover:text-maroon transition-colors relative group"
+            >
+              Clients
+              <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-maroon group-hover:w-full transition-all duration-300"
+              ></span>
+            </a>
+            <a
+              href="#contact"
+              class="btn-primary px-6 py-2.5 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full"
+            >
+              Contact
+            </a>
+          </nav>
+
+          <!-- Mobile Menu Button -->
+          <button
+            id="mobile-menu-btn"
+            class="lg:hidden p-2 text-gray-600 hover:text-maroon transition-colors"
+            aria-label="Toggle menu"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+
+    <!-- Mobile Menu -->
+    <aside id="mobile-menu" class="mobile-menu">
+      <div class="flex flex-col h-full">
+        <div
+          class="flex items-center justify-between p-6 border-b border-gray-200"
+        >
+          <h3 class="font-semibold text-gray-900">Menu</h3>
+          <button
+            id="mobile-menu-close"
+            class="p-2 text-gray-600 hover:text-maroon transition-colors"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <nav class="flex-1 overflow-y-auto p-6">
+          <div class="flex flex-col gap-2">
+            <a
+              href="#home"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:text-maroon hover:bg-gray-50 rounded-lg transition-colors"
+              >Home</a
+            >
+            <a
+              href="#about"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:text-maroon hover:bg-gray-50 rounded-lg transition-colors"
+              >About</a
+            >
+            <a
+              href="#mission"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:text-maroon hover:bg-gray-50 rounded-lg transition-colors"
+              >Mission & Vision</a
+            >
+            <a
+              href="#services"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:text-maroon hover:bg-gray-50 rounded-lg transition-colors"
+              >Services</a
+            >
+            <a
+              href="#clients"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:text-maroon hover:bg-gray-50 rounded-lg transition-colors"
+              >Clients</a
+            >
+          </div>
+        </nav>
+        <div class="p-6 border-t border-gray-200">
+          <a
+            href="#contact"
+            class="mobile-nav-link block w-full px-6 py-3 text-center bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full hover:shadow-lg transition-all duration-300"
+          >
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <!-- Hero Section -->
+      <section
+        id="home"
+        class="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 pt-10"
+      >
+        <!-- Background decorations -->
+        <div
+          class="bg-decoration absolute -top-40 -right-40 w-96 h-96 bg-maroon/10"
+        ></div>
+        <div
+          class="bg-decoration absolute -bottom-40 -left-40 w-96 h-96 bg-maroon/10"
+        ></div>
+
+        <div class="relative max-w-7xl mx-auto px-6 py-32">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Content -->
+            <div class="space-y-8">
+              <div class="reveal">
+                <span
+                  class="inline-block px-4 text-gray-500 rounded-full text-sm"
+                >
+                  ATD AMS CONSULTING, INC.
+                </span>
+              </div>
+
+              <div class="reveal">
+                <h1 class="font-display text-maroon hero-title reveal text-5xl">
+                  Accounting, Taxation,
+                  <span class="block text-maroon-700">Assurance, System</span>
+                  <span class="block text-maroon-700"
+                    >And Organization Management.</span
+                  >
+                </h1>
+              </div>
+
+              <p class="reveal text-lg text-gray-600 max-w-xl leading-relaxed">
+                Established in 2014, ATD AMS Consulting, Inc. renders various
+                business and management consultancy engagements covering
+                Accounting, Taxation, Assurance, System and Organization
+                Management.
+              </p>
+
+              <div class="reveal flex flex-wrap gap-4">
+                <a
+                  href="#services"
+                  class="btn-primary group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full"
+                >
+                  Our Services
+                  <svg
+                    class="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#contact"
+                  class="btn-primary px-8 py-4 bg-white text-gray-700 rounded-full border-2 border-gray-200 hover:border-maroon hover:text-maroon"
+                >
+                  Talk to an Expert
+                </a>
+              </div>
+
+              <div
+                class="reveal flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200"
+              >
+                <div class="flex items-center gap-2 text-gray-600">
+                  <svg
+                    class="w-5 h-5 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    />
+                  </svg>
+                  <span class="text-sm">0995 893 4632</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-600">
+                  <svg
+                    class="w-5 h-5 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <a
+                    href="mailto:atdizon@atdamsconsulting.net"
+                    class="text-sm hover:text-maroon transition-colors"
+                  >
+                    atdizon@atdamsconsulting.net
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Image -->
+            <div class="reveal relative hidden lg:block">
+              <div class="relative rounded-3xl overflow-hidden shadow-2xl">
+                <img
+                  src="assets/hero.jpg"
+                  alt="Professional business meeting"
+                  class="w-full h-[600px] object-cover"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-tr from-maroon/20 to-transparent"
+                ></div>
+              </div>
+
+              <!-- Floating card -->
+              <div
+                class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-6 max-w-xs"
+              >
+                <div class="flex items-center gap-4">
+                  <div
+                    class="w-12 h-12 bg-gradient-to-br from-maroon to-maroon-700 rounded-full flex items-center justify-center"
+                  >
+                    <span class="text-white text-xl font-bold">12+</span>
+                  </div>
+                  <div>
+                    <div class="text-sm text-gray-600">Years of</div>
+                    <div class="font-semibold text-gray-900">Excellence</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="py-24 bg-white relative overflow-hidden">
+        <div
+          class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"
+        ></div>
+
+        <div class="max-w-6xl mx-auto px-6">
+          <div class="reveal text-center mb-12">
+            <span
+              class="inline-block px-4 py-1.5 bg-maroon/10 text-maroon rounded-full text-sm mb-4"
+            >
+              Our Founder
+            </span>
+            <h2 class="font-display text-4xl md:text-5xl text-gray-900 mb-4">
+              Alexander T. Dizon
+            </h2>
+            <p class="text-l text-gray-600 max-w-2xl mx-auto">
+              Leading expertise in Accounting, Tax, Audit, Treasury, Credit, and
+              Operations
+            </p>
+          </div>
+
+          <div
+            class="reveal bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-xl border border-gray-200 overflow-hidden"
+          >
+            <div class="p-8 md:p-12">
+              <!-- Credentials Grid -->
+              <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="space-y-6">
+                  <div class="flex gap-4">
+                    <div
+                      class="flex-shrink-0 w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-6 h-6 text-maroon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-2">
+                        Education
+                      </h4>
+                      <p class="text-gray-600">
+                        BSC (Accounting), San Beda University
+                      </p>
+                      <p class="text-gray-600">MBA, De La Salle University</p>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-4">
+                    <div
+                      class="flex-shrink-0 w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-6 h-6 text-maroon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-2">
+                        Certifications
+                      </h4>
+                      <p class="text-gray-600">
+                        Certified Public Accountant (CPA)
+                      </p>
+                      <p class="text-gray-600">Board of Accountancy (BOA)</p>
+                      <p class="text-gray-600">
+                        Bureau of Internal Revenue (BIR)
+                      </p>
+                      <p class="text-gray-600">
+                        Securities and Exchange Commission (SEC)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-6">
+                  <div class="flex gap-4">
+                    <div
+                      class="flex-shrink-0 w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-6 h-6 text-maroon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-2">
+                        Accreditations & Memberships
+                      </h4>
+                      <p class="text-gray-600">
+                        BOA, BIR, and SEC (Pending Accreditaion)
+                      </p>
+                      <p class="text-gray-600">PICPA, IIA, CMAP, PMAP</p>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-4">
+                    <div
+                      class="flex-shrink-0 w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-6 h-6 text-maroon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-2">
+                        Industry Exposure
+                      </h4>
+                      <div class="flex flex-wrap gap-2 mt-3">
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Bank</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Publication</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Manufacturing</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Logistics</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Retail</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Healthcare</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Business Information</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Remittance</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Transportation Services</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Credit Rating</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Print Advertising</span
+                        >
+                        <span
+                          class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-full text-sm hover:border-maroon hover:text-maroon transition-colors cursor-default"
+                          >Background + Credit Investigation</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Expertise Tags -->
+              <div class="pt-6 border-t border-gray-200">
+                <p class="text-sm text-gray-500 mb-3">Areas of Expertise</p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Accounting</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Tax</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Operations</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Assurance/Audit</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Credit Evaluation</span
+                  >
+
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Human Resources</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Marketing</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Treasury</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Billing + Collection</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >Administration</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full text-sm font-medium"
+                    >General Management</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mission & Vision Section -->
+      <section
+        id="mission"
+        class="py-24 bg-gradient-to-br from-maroon via-maroon-600 to-maroon-700 text-white relative overflow-hidden"
+      >
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-10">
+          <div
+            class="absolute top-0 left-0 w-full h-full"
+            style="
+              background-image: radial-gradient(
+                circle at 2px 2px,
+                white 1px,
+                transparent 0
+              );
+              background-size: 40px 40px;
+            "
+          ></div>
+        </div>
+
+        <div class="relative max-w-6xl mx-auto px-6">
+          <div class="reveal text-center mb-16">
+            <span
+              class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm mb-4"
+            >
+              Our Purpose
+            </span>
+            <h2 class="font-display text-4xl md:text-5xl mb-4">
+              Mission & Vision
+            </h2>
+            <p class="text-white/90 text-lg max-w-2xl mx-auto">
+              Driving excellence in business and management consulting
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <!-- Mission Card -->
+            <div class="reveal group relative">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"
+              ></div>
+              <div
+                class="relative glass-effect rounded-3xl p-8 hover:bg-white/15 transition-all duration-300 h-full"
+              >
+                <div
+                  class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
+                >
+                  <svg
+                    class="w-7 h-7 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">Mission</h3>
+                <p class="text-white/90 leading-relaxed">
+                  ATD AMS CONSULTING, INC. is constantly developing and offering
+                  innovative, independent, quality and personalized financial,
+                  business and management services to meet and satisfy the needs
+                  of clients within and outside the Philippines.
+                </p>
+              </div>
+            </div>
+
+            <!-- Vision Card -->
+            <div class="reveal group relative">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"
+              ></div>
+              <div
+                class="relative glass-effect rounded-3xl p-8 hover:bg-white/15 transition-all duration-300 h-full"
+              >
+                <div
+                  class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
+                >
+                  <svg
+                    class="w-7 h-7 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">Vision</h3>
+                <p class="text-white/90 leading-relaxed">
+                  ATD AMS CONSULTING, INC. aims to be a total financial,
+                  business and management services provider across operations,
+                  marketing, finance, systems and human resources to meet
+                  domestic and international industry challenges.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section
+        id="services"
+        class="py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+      >
+        <!-- Background decoration -->
+        <div
+          class="bg-decoration absolute top-20 right-0 w-96 h-96 bg-maroon/5"
+        ></div>
+        <div
+          class="bg-decoration absolute bottom-20 left-0 w-96 h-96 bg-maroon/5"
+        ></div>
+
+        <div class="relative max-w-7xl mx-auto px-6">
+          <div class="reveal text-center mb-16">
+            <span
+              class="inline-block px-4 py-1.5 bg-maroon/10 text-maroon rounded-full text-sm mb-4"
+            >
+              What We Offer
+            </span>
+            <h2 class="font-display text-4xl md:text-5xl text-gray-900 mb-4">
+              Company Services
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+              Experience delightfulness and quality through our highly
+              qualified, responsible, hardworking & dedicated personnel
+            </p>
+          </div>
+
+          <!-- Main Services -->
+          <div class="grid md:grid-cols-3 gap-8 mb-20">
+            <!-- Service 1 -->
+            <div class="reveal group relative">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-maroon/5 to-transparent rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"
+              ></div>
+              <div
+                class="relative bg-white rounded-3xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full"
+              >
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-maroon to-maroon-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
+                >
+                  <svg
+                    class="w-7 h-7 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                  Accounting System & Tax Solutions
+                </h3>
+                <ul class="space-y-3">
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Accounting System Review</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Internal Control Review</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>ERP Setup Assistance</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>ERP Maintenance & Consulting</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Bookkeeping</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Accounting</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Taxation</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="reveal group relative">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-maroon/5 to-transparent rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"
+              ></div>
+              <div
+                class="relative bg-white rounded-3xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full"
+              >
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-maroon to-maroon-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
+                >
+                  <svg
+                    class="w-7 h-7 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                  Assurance/Audit Services
+                </h3>
+                <ul class="space-y-3">
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Operations Audit</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Financial Audit</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Compliance Audit</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Due Diligence Audit</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Risk Assessment Review & Analysis</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="reveal group relative">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-maroon/5 to-transparent rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"
+              ></div>
+              <div
+                class="relative bg-white rounded-3xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full"
+              >
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-maroon to-maroon-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
+                >
+                  <svg
+                    class="w-7 h-7 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                  Organization Management
+                </h3>
+                <ul class="space-y-3">
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Business Process</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Business Set Up & Strategic Planning</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Management Assistance</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Advisory & Consultancy Work</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Business Brokering (Buyout / JV / Investment)</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>Executive Search</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-gray-600">
+                    <span
+                      class="w-1.5 h-1.5 bg-maroon rounded-full mt-2 flex-shrink-0"
+                    ></span>
+                    <span>HR Solutions</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Other Services -->
+          <div class="reveal text-center mb-16">
+            <h2 class="font-display text-4xl md:text-5xl text-gray-900 mb-4">
+              Additional Services
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+              Via sister companies
+            </p>
+          </div>
+          <!-- ASTRAM SERVICES -->
+          <div
+            class="reveal bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 md:p-12 border border-gray-200 mb-8"
+          >
+            <div class="text-center mb-10">
+              <img
+                src="assets/AMCLogo.jpg"
+                alt="Professional business meeting"
+                class="mb-4 mx-auto object-contain shadow-md"
+              />
+              <h3 class="text-2xl font-semibold text-gray-900 mb-2">
+                ASTRAM MANAGEMENT CONSULTING OPC.
+              </h3>
+              <p class="text-gray-600">
+                Providing intangible business, financial, and operational
+                expertise to organizations and individuals
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <!-- Professional Assistance Services -->
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Business</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                  Provide professional expertise, advisory support, and
+                  specialized services to organizations and individuals.
+                </p>
+                <button
+                  onclick="toggleCollapse('astram-1')"
+                  class="learn-more-btn text-maroon text-sm font-medium flex items-center gap-1 hover:gap-2 transition-all"
+                >
+                  Learn More
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="astram-1"
+                  class="collapsible-content mt-4 pt-4 border-t border-gray-100"
+                >
+                  <ul class="space-y-2 text-gray-600 text-sm">
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Professional Assistance:</strong> Legal and
+                        regulatory compliance, contract review, and corporate
+                        consulting covering finance, operations, marketing,
+                        management, and HR.</span
+                      >
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Healthcare and HR Support:</strong> HMO
+                        brokering, executive search, and development of HR
+                        policies and employee guidelines.</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Financial & Operations -->
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Financial</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                  Provide accounting, taxation and assurance (financial,
+                  operations and compliance audit) services
+                </p>
+                <button
+                  onclick="toggleCollapse('astram-3')"
+                  class="learn-more-btn text-maroon text-sm font-medium flex items-center gap-1 hover:gap-2 transition-all"
+                >
+                  Learn More
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="astram-3"
+                  class="collapsible-content mt-4 pt-4 border-t border-gray-100"
+                >
+                  <ul class="space-y-2 text-gray-600 text-sm">
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Accounting and Bookkeeping:</strong> Financial
+                        record keeping, Financial Statements Preparation and
+                        Analyses.</span
+                      >
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Taxation:</strong> Tax Compliance, Tax Return
+                        Preparation and Filing</span
+                      >
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Business Registration:</strong> Assists setting
+                        up of New Companies and Registration with Government
+                        Agencies</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Healthcare and HR Support -->
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Operations</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                  Assists in temporily and jointly running the operational
+                  activities of newly created companies and those needing
+                  assistance due to management vacuum.
+                </p>
+                <button
+                  onclick="toggleCollapse('astram-2')"
+                  class="learn-more-btn text-maroon text-sm font-medium flex items-center gap-1 hover:gap-2 transition-all"
+                >
+                  Learn More
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id="astram-2"
+                  class="collapsible-content mt-4 pt-4 border-t border-gray-100"
+                >
+                  <ul class="space-y-2 text-gray-600 text-sm">
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span><strong>Newly Formed Company</strong></span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="w-1.5 h-1.5 bg-maroon rounded-full mt-1.5 flex-shrink-0"
+                      ></span>
+                      <span
+                        ><strong>Company with Management Vacuum</strong></span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- A.T. DIZON ACCOUNTING AND MANAGEMENT SERVICES -->
+          <div
+            class="reveal bg-gradient-to-br from-gray-50 to-white rounded-3xl p-6 md:p-12 border border-gray-200"
+          >
+            <div class="text-center mb-10">
+              <img
+                src="assets/ATDLogo.jpg"
+                alt="Professional business meeting"
+                class="mb-4 mx-auto object-contain shadow-md h-20"
+              />
+              <h3 class="text-2xl font-semibold text-gray-900 mb-2">
+                A.T. DIZON ACCOUNTING AND MANAGEMENT SERVICES
+              </h3>
+              <p class="text-gray-600">
+                under Alexander T. Dizon, CPA, MBA, BOA, BIR, and SEC Accredited
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Accounting</h4>
+                <p class="text-gray-600 text-sm">
+                  Bookkeeping, financial statements, government reportorial
+                  requirements.
+                </p>
+              </div>
+
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Audit</h4>
+                <p class="text-gray-600 text-sm">
+                  Statutory/External audits and special audits.
+                </p>
+              </div>
+
+              <div
+                class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+              >
+                <div
+                  class="w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-6 h-6 text-maroon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-2">Tax</h4>
+                <p class="text-gray-600 text-sm">
+                  Tax planning, registration assistance, preparation and filing
+                  assistance.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Clients Section -->
+      <section
+        id="clients"
+        class="py-24 bg-gradient-to-br from-maroon via-maroon-600 to-maroon-700 text-white relative overflow-hidden"
+      >
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-10">
+          <div
+            class="absolute top-0 left-0 w-full h-full"
+            style="
+              background-image: radial-gradient(
+                circle at 2px 2px,
+                white 1px,
+                transparent 0
+              );
+              background-size: 40px 40px;
+            "
+          ></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-6">
+          <div class="reveal text-center mb-12">
+            <h2 class="font-display text-4xl md:text-5xl mb-4">Clients</h2>
+            <p class="text-white/90 text-lg max-w-3xl mx-auto">
+              We serve a wide range of industries including remittance,
+              logistics, manufacturing, finance, healthcare, real estate, IT and
+              more
+            </p>
+          </div>
+
+          <!-- Marquee -->
+          <div class="marquee-container py-8">
+            <div class="marquee-content">
+              <div class="flex gap-6">
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Remittance
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Diagnostics
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Logistics
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Finance
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Manufacturing
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Healthcare
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Real Estate
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  IT
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Trading
+                </div>
+              </div>
+              <!-- Duplicate for seamless loop -->
+              <div class="flex gap-6">
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Remittance
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Diagnostics
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Logistics
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Finance
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Manufacturing
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Healthcare
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Real Estate
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  IT
+                </div>
+                <div
+                  class="flex-shrink-0 px-8 py-4 glass-effect rounded-2xl hover:bg-white hover:text-maroon transition-all duration-300 cursor-default min-w-[200px] text-center font-semibold"
+                >
+                  Trading
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section
+        id="contact"
+        class="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden"
+      >
+        <!-- Background decoration -->
+        <div
+          class="bg-decoration absolute top-20 -left-40 w-96 h-96 bg-maroon/5"
+        ></div>
+        <div
+          class="bg-decoration absolute bottom-20 -right-40 w-96 h-96 bg-maroon/5"
+        ></div>
+
+        <div class="relative max-w-7xl mx-auto px-6">
+          <div class="reveal text-center mb-16">
+            <span
+              class="inline-block px-4 py-1.5 bg-maroon/10 text-maroon rounded-full text-sm mb-4"
+            >
+              Get In Touch
+            </span>
+            <h2 class="font-display text-4xl md:text-5xl text-gray-900 mb-4">
+              Contact Us
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+              Ready to transform your business? Let's start a conversation
+            </p>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-12 items-start">
+            <!-- Contact Information -->
+            <div class="reveal space-y-8">
+              <div
+                class="bg-white rounded-3xl p-8 shadow-lg border border-gray-200"
+              >
+                <h3 class="text-2xl font-semibold text-gray-900 mb-6">
+                  ATD AMS CONSULTING, INC.
+                </h3>
+
+                <div class="space-y-6">
+                  <div class="flex gap-4">
+                    <div
+                      class="flex-shrink-0 w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-5 h-5 text-maroon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-1">Address</h4>
+                      <p class="text-gray-600">
+                        Raha Sulayman Building<br />
+                        108 Benavidez Street<br />
+                        Makati City, Metro Manila<br />
+                        Philippines
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-4">
+                    <div
+                      class="flex-shrink-0 w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-5 h-5 text-maroon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-1">
+                        Telephone
+                      </h4>
+                      <p class="text-gray-600">0995 893 4632</p>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-4">
+                    <div
+                      class="flex-shrink-0 w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-5 h-5 text-maroon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-1">Email</h4>
+                      <a
+                        href="mailto:atdizon@atdamsconsulting.net"
+                        class="text-maroon hover:underline block"
+                      >
+                        atdizon@atdamsconsulting.net
+                      </a>
+                      <a
+                        href="mailto:custcare@atdamaconsulting.net"
+                        class="text-maroon hover:underline block"
+                      >
+                        custcare@atdamaconsulting.net
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-4">
+                    <div
+                      class="flex-shrink-0 w-12 h-12 bg-maroon/10 rounded-xl flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-5 h-5 text-maroon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-1">
+                        Human Resource
+                      </h4>
+                      <a
+                        href="mailto:careers@atdamsconsulting.com"
+                        class="text-maroon hover:underline"
+                      >
+                        careers@atdamsconsulting.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image -->
+              <div class="reveal hidden lg:block"></div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="reveal">
+              <form
+                id="contact-form"
+                class="bg-white rounded-3xl p-8 shadow-lg border border-gray-200 space-y-6"
+              >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label for="name" class="sr-only">Full Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      placeholder="Full Name"
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-maroon/20 focus:border-maroon transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label for="email" class="sr-only">Email Address</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      placeholder="Email Address"
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-maroon/20 focus:border-maroon transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="subject" class="sr-only">Subject</label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    placeholder="Subject"
+                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-maroon/20 focus:border-maroon transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label for="message" class="sr-only">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows="6"
+                    placeholder="Your Message"
+                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-maroon/20 focus:border-maroon transition-all resize-none"
+                  ></textarea>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                  <button
+                    type="submit"
+                    class="btn-primary flex-1 px-6 py-3 bg-gradient-to-r from-maroon to-maroon-700 text-white rounded-full flex items-center justify-center gap-2"
+                  >
+                    <svg
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                      />
+                    </svg>
+                    Send Message
+                  </button>
+                  <button
+                    type="reset"
+                    class="btn-primary px-6 py-3 bg-white text-gray-700 rounded-full border-2 border-gray-200 hover:border-maroon hover:text-maroon"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="bg-gradient-to-br from-maroon via-maroon-600 to-maroon-700 text-white"
+    >
+      <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="text-center">
+          <div class="flex items-center justify-center gap-2 mb-4">
+            <a href="#" class="flex items-center min-w-0">
+              <img
+                src="assets/ACI_Logo2.png"
+                alt="ATD AMS Consulting Inc."
+                class="h-20 w-auto object-contain"
+              />
+            </a>
+          </div>
+
+          <div class="pt-6 border-t border-white/20">
+            <p class="text-white/70 text-sm">
+              © <span id="footer-year"></span> ATD AMS CONSULTING, INC. All
+              rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      // Set current year
+      document.getElementById("footer-year").textContent =
+        new Date().getFullYear();
+
+      // Header scroll effect
+      const header = document.getElementById("header");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 20) {
+          header.classList.add(
+            "bg-white/95",
+            "backdrop-blur-lg",
+            "shadow-lg",
+            "border-b",
+            "border-gray-200/50",
+          );
+          header.classList.remove("bg-white/80", "backdrop-blur-sm");
+        } else {
+          header.classList.add("bg-white/80", "backdrop-blur-sm");
+          header.classList.remove(
+            "bg-white/95",
+            "backdrop-blur-lg",
+            "shadow-lg",
+            "border-b",
+            "border-gray-200/50",
+          );
+        }
+      });
+
+      // Mobile menu
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenuClose = document.getElementById("mobile-menu-close");
+      const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+
+      function openMobileMenu() {
+        mobileMenuOverlay.classList.add("active");
+        mobileMenu.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMobileMenu() {
+        mobileMenuOverlay.classList.remove("active");
+        mobileMenu.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      mobileMenuBtn?.addEventListener("click", openMobileMenu);
+      mobileMenuClose?.addEventListener("click", closeMobileMenu);
+      mobileMenuOverlay?.addEventListener("click", closeMobileMenu);
+      mobileNavLinks.forEach((link) => {
+        link.addEventListener("click", closeMobileMenu);
+      });
+
+      // Reveal animations on scroll
+      const reveals = document.querySelectorAll(".reveal");
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      reveals.forEach((el) => revealObserver.observe(el));
+
+      // Toast notification system
+      function showToast(message, type = "success") {
+        const toastContainer = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+
+        const icon =
+          type === "success"
+            ? '<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>'
+            : '<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+
+        toast.innerHTML = `
+          ${icon}
+          <span class="text-gray-900">${message}</span>
+        `;
+
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => toast.classList.add("show"), 100);
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      // Contact form submission
+      const contactForm = document.getElementById("contact-form");
+      contactForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner"></span> Sending...';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData);
+
+        try {
+          const response = await fetch("/api/send-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            showToast("Message sent successfully!", "success");
+            contactForm.reset();
+          } else {
+            showToast(result.error || "Failed to send message.", "error");
+          }
+        } catch (error) {
+          showToast("Error sending message. Please try again.", "error");
+          console.error("Submission error:", error);
+        }
+
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
+      });
+
+      // Toggle collapsible content
+      function toggleCollapse(id) {
+        const content = document.getElementById(id);
+        const button = event.currentTarget;
+
+        // Toggle the active class
+        content.classList.toggle("active");
+        button.classList.toggle("active");
+      }
+    </script>
+    <div
+      id="toast-container"
+      class="fixed bottom-4 right-4 space-y-2 z-50"
+    ></div>
+
+    <style>
+      .toast {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+    </style>
+  </body>
+</html>
