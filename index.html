@@ -1890,8 +1890,16 @@
             <div class="reveal">
               <form
                 id="contact-form"
+                action="https://formspree.io/f/mpqoekld"
+                method="POST"
                 class="bg-white rounded-3xl p-8 shadow-lg border border-gray-200 space-y-6"
               >
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value="New Contact Form Inquiry - ATD AMS Consulting"
+                />
+                <input type="hidden" name="_next" value="false" />
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label for="name" class="sr-only">Full Name</label>
@@ -2098,7 +2106,7 @@
         }, 3000);
       }
 
-      // Contact form submission
+      // Contact form submission via Formspree
       const contactForm = document.getElementById("contact-form");
       contactForm?.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -2108,16 +2116,33 @@
         submitBtn.innerHTML = '<span class="spinner"></span> Sending...';
         submitBtn.disabled = true;
 
-        // Simulate form submission
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const formData = new FormData(contactForm);
 
-        showToast("Message sent successfully!", "success");
-        contactForm.reset();
+        try {
+          const response = await fetch(contactForm.action, {
+            method: "POST",
+            body: formData,
+            headers: { Accept: "application/json" },
+          });
+
+          if (response.ok) {
+            showToast("Message sent successfully!", "success");
+            contactForm.reset();
+          } else {
+            const result = await response.json();
+            const errorMsg =
+              result?.errors?.map((e) => e.message).join(", ") ||
+              "Failed to send message.";
+            showToast(errorMsg, "error");
+          }
+        } catch (error) {
+          showToast("Error sending message. Please try again.", "error");
+          console.error("Submission error:", error);
+        }
 
         submitBtn.innerHTML = originalHTML;
         submitBtn.disabled = false;
       });
-
       // Toggle collapsible content
       function toggleCollapse(id) {
         const content = document.getElementById(id);
@@ -2128,5 +2153,19 @@
         button.classList.toggle("active");
       }
     </script>
+    <div
+      id="toast-container"
+      class="fixed bottom-4 right-4 space-y-2 z-50"
+    ></div>
+
+    <style>
+      .toast {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+    </style>
   </body>
 </html>
